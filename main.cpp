@@ -17,16 +17,18 @@ using std::getline;
 char *serialPortName;
 unsigned serialBaudRate;
 
-void output(){
-    string input;
-    while(cin){
-        getline(cin, input); 
-        serialWrite(input.c_str(), input.size());
-        //cout << input << endl;
+int main(int argc, char **argv){
+    if(argc < 3){
+        cout << "missing arguments" << endl;
+        cout << "suggested usage: ./serial /dev/ttyUSB0 115200" << endl;
+        exit(1);
     }
-}
 
-void setup(){
+    serialPortName = argv[1];
+    serialBaudRate = strtol(argv[2], NULL, 10);
+
+    bool print = (argc == 4) && (strcmp(argv[3], "-m") == 0);
+
     cout << "using port " << serialPortName << " at " << serialBaudRate << " baud" << endl;
 
     //options are: B115200, B230400, B9600, B19200, B38400, B57600, B1200, B2400, B4800
@@ -40,20 +42,16 @@ void setup(){
     }
 
     openSerial(serialPortName, serialBaudRate);
-}
 
-int main(int argc, char **argv){
-    if(argc < 3){
-        cout << "missing arguments" << endl;
-        cout << "suggested usage: ./serial /dev/ttyUSB0 115200" << endl;
-        exit(1);
+    string input;
+    while(cin){
+        getline(cin, input); 
+        serialWrite(input.c_str(), input.size());
+
+        if(print){
+            cout << input << endl;
+        }
     }
-
-    serialPortName = argv[1];
-    serialBaudRate = strtol(argv[2], NULL, 10);
-
-    setup();
-    output();
 
     closeSerial();
 }

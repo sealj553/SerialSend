@@ -9,5 +9,7 @@ cat file_of_data | ./serial /dev/ttyUSB0 115200
 echo "hello world" | ./serial /dev/ttyUSB0 115200
 ```
 
-TODO:
-* Make a switch to also print output to stdout
+The output can also be printed to stdout using the flag -m (mirror).
+```shell
+echo "hello world" | ./serial /dev/ttyUSB0 115200 -m
+```
