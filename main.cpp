@@ -18,8 +18,6 @@ char *serialPortName;
 unsigned serialBaudRate;
 
 void output(){
-    int headerLen = strlen(header);
-
     string input;
     while(cin){
         getline(cin, input); 
